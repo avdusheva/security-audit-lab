@@ -4,13 +4,21 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'git@github.com:avdusheva/security-audit-lab.git'
+                sshagent(credentials: ['github-ssh']) {
+                    git branch: 'master', url: 'git@github.com:avdusheva/security-audit-lab.git'
+                }
             }
         }
 
-        stage('Run tests') {
+        stage('Run Tests') {
             steps {
                 sh 'pytest'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                sh 'sonar-scanner'
             }
         }
     }
