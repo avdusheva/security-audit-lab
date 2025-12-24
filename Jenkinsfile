@@ -4,9 +4,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                sshagent(credentials: ['github-ssh']) {
-                    git branch: 'master', url: 'git@github.com:avdusheva/security-audit-lab.git'
-                }
+                git branch: 'master', 
+                    url: 'https://github.com/avdusheva/security-audit-lab.git', 
+                    credentialsId: 'github-token'
             }
         }
 
